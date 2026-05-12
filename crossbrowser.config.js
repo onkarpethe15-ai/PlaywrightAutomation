@@ -37,16 +37,12 @@ export default defineConfig({
   projects: [
     {
       name: "chromium",
-      use: {
-        ...devices["Desktop Chrome"],
-        headless: false,
-        screenshot: "only-on-failure",
-        video: "retain-on-failure",
-        trace: "on-first-retry",
-        viewport: { width: 1440, height: 900 },
-        ignoreHTTPSErrors: true,
-        permissions: ["clipboard-read"],
-      },
+      use: { ...devices["Desktop Chrome"] },
+    },
+
+    {
+      name: "Safari",
+      use: { ...devices["Desktop Safari"] },
     },
 
     /* Test against mobile viewports. */

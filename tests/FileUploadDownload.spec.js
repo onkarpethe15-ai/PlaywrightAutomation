@@ -1,22 +1,26 @@
-import { test } from "@playwright/test";
+// import { test } from "@playwright/test";
+import { test } from "../CustomFixture/DataFixtures";
 import { UploadDownloadPage } from "../Pages/UploadDownloadPage";
 import { PomManager } from "../Pages/PomManager";
 
-test("File Upload And Download", async ({ page }) => {
+test("File Upload And Download", async ({ page, TestData, logger }) => {
   const pomanager = new PomManager(page);
   const uploadPage = pomanager.get_UploadDownloadPage();
-
-  const valueToChange = "150720";
-  const filepath = "C:\\Users\\asuso\\Downloads\\download.xlsx";
-  const valueUpdateOf = "Mango";
 
   await uploadPage.goto();
 
   await uploadPage.downloadExcel();
 
-  await uploadPage.updateExcel(filepath, valueToChange, valueUpdateOf);
+  await uploadPage.updateExcel(
+    TestData.filepath,
+    TestData.valueToChange,
+    TestData.valueUpdateOf,
+  );
 
-  await uploadPage.uploadExcel(filepath);
+  logger("excel data updated");
 
-  await uploadPage.verifyUpdatedValue(valueToChange);
+  await uploadPage.uploadExcel(TestData.filepath);
+  logger("File upload completed");
+
+  await uploadPage.verifyUpdatedValue(TestData.valueToChange);
 });
