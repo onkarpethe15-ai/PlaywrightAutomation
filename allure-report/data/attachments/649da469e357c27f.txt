@@ -1,0 +1,6 @@
+{
+  success: true,
+  token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjY1NDIsImVtYWlsIjoibWFpbHRvbmthckBnbWFpbC5jb20iLCJpYXQiOjE3Nzg2OTMzODcsImV4cCI6MTc3OTI5ODE4N30.HuiHivIcMP0RIIwbpy8eLeJwaXP2unPdsLpvcvxmaWQ',
+  user: { id: 6542, email: 'mailtonkar@gmail.com' }
+}
+eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjY1NDIsImVtYWlsIjoibWFpbHRvbmthckBnbWFpbC5jb20iLCJpYXQiOjE3Nzg2OTMzODcsImV4cCI6MTc3OTI5ODE4N30.HuiHivIcMP0RIIwbpy8eLeJwaXP2unPdsLpvcvxmaWQ
