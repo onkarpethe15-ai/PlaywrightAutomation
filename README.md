@@ -1,6 +1,6 @@
 # Playwright Automation Framework
 
-Automation framework built using Playwright and JavaScript following the Page Object Model (POM) design pattern.
+Automation framework built using Playwright and JavaScript following the Page Object Model (POM) design pattern
 
 ## Features
 
