@@ -203,11 +203,21 @@ This helps in debugging failed test executions.
 npx playwright show-report
 ```
 
+---
+
+# Allure Reporting
+
+Framework supports advanced reporting using Allure Reports.
+
 ## Generate Allure Report
 
 ```bash
 npm run allure:generate
 ```
+
+This command generates the Allure HTML report from execution results.
+
+---
 
 ## Open Allure Report
 
@@ -215,11 +225,49 @@ npm run allure:generate
 npm run allure:open
 ```
 
-## Run Tests + Generate + Open Allure Report
+This command opens the generated Allure report in browser.
+
+---
+
+## Execute Tests + Generate + Open Allure Report
 
 ```bash
 npm run allure:test
 ```
+
+This command performs:
+
+1. Playwright Test Execution
+2. Allure Report Generation
+3. Automatically Opens Allure Report
+
+---
+
+## Manual Allure Commands
+
+### Generate Allure Report
+
+```bash
+npx allure generate allure-results --clean -o allure-report
+```
+
+### Open Allure Report
+
+```bash
+npx allure open allure-report
+```
+
+---
+
+## Allure Report Features
+
+- Test Execution Summary
+- Passed / Failed Statistics
+- Screenshots Attachment
+- Trace & Video Attachments
+- Execution Timeline
+- Detailed Failure Logs
+- Retry Analysis
 
 ---
 
@@ -287,7 +335,7 @@ az login
 PowerShell:
 
 ```powershell
-$env:PLAYWRIGHT_SERVICE_URL="wss://eastus.api.playwright.microsoft.com/playwrightworkspaces/<workspace-id>/browsers"
+$env:PLAYWRIGHT_SERVICE_URL="wss://<region>.api.playwright.microsoft.com/playwrightworkspaces/<workspace-id>/browsers"
 ```
 
 ## Execute Tests on Azure
@@ -300,11 +348,75 @@ npx playwright test -c playwright.service.config.js --workers=4
 
 # Azure Storage Permission Setup
 
-Assign Storage Blob Data Contributor role:
+## Get Storage Account Resource ID
 
 ```bash
-az role assignment create --assignee "<object-id>" --role "Storage Blob Data Contributor" --scope "/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/Microsoft.Storage/storageAccounts/<storage-account>"
+az storage account show \
+  --name "<storage-account-name>" \
+  --resource-group "<resource-group>" \
+  --query id -o tsv
 ```
+
+---
+
+## Assign Storage Blob Data Contributor Role to User
+
+```bash
+az role assignment create \
+  --assignee "<object-id>" \
+  --role "Storage Blob Data Contributor" \
+  --scope "$(az storage account show --name <storage-account-name> --resource-group <resource-group> --query id -o tsv)"
+```
+
+This command provides permission to upload:
+
+- traces
+- screenshots
+- videos
+- reports
+
+to Azure Storage Account.
+
+---
+
+## Create Azure Service Principal for GitHub Actions
+
+```bash
+az ad sp create-for-rbac \
+  --name "<service-principal-name>" \
+  --role "Contributor" \
+  --scopes "/subscriptions/<subscription-id>/resourceGroups/<resource-group>" \
+  --json-auth
+```
+
+This command generates Azure credentials JSON used inside GitHub Actions Secrets.
+
+GitHub Secret Name:
+
+```text
+AZURE_CREDENTIALS
+```
+
+---
+
+## Assign Storage Permission to GitHub Actions Service Principal
+
+```bash
+az role assignment create \
+  --assignee "<service-principal-object-id>" \
+  --role "Storage Blob Data Contributor" \
+  --scope "/subscriptions/<subscription-id>/resourceGroups/<resource-group>/providers/Microsoft.Storage/storageAccounts/<storage-account>"
+```
+
+This command allows GitHub Actions pipeline to upload:
+
+- Playwright Reports
+- Screenshots
+- Videos
+- Traces
+- Azure Reporting Artifacts
+
+to Azure Storage successfully.
 
 ---
 
@@ -356,7 +468,7 @@ PLAYWRIGHT_SERVICE_URL
 Value:
 
 ```text
-wss://eastus.api.playwright.microsoft.com/playwrightworkspaces/<workspace-id>/browsers
+wss://<region>.api.playwright.microsoft.com/playwrightworkspaces/<workspace-id>/browsers
 ```
 
 ---
@@ -398,12 +510,6 @@ HTML Report Upload
 - AI Powered Self-Healing Framework Capabilities
 - Framework Migration from JavaScript to TypeScript
 - Advanced Reporting Dashboard
-- API Testing Integration
-- Docker Integration
-- Jenkins Integration
-- Database Validation
-- Visual Regression Testing
-- Slack Notifications
 
 ---
 
